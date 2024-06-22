@@ -45,6 +45,7 @@ const TaskForm = ({ fetchTasks, persons }) => {
       />
       <label>
         Done:
+        {/* Ensure there is clear separation between text and input element */}
         <input
           type="checkbox"
           checked={done}
