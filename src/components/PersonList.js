@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { getPersons, deletePerson, updatePerson } from '../api';
+import { deletePerson, updatePerson } from '../api';
+import PropTypes from 'prop-types'; 
 
-const PersonList = () => {
-  const [persons, setPersons] = useState([]);
+const PersonList = ({ persons, fetchPersons }) => {
   const [editingPerson, setEditingPerson] = useState(null);
 
   useEffect(() => {
     fetchPersons();
   }, []);
 
-  const fetchPersons = async () => {
-    const response = await getPersons();
-    setPersons(response.data);
-  };
-
   const handleDelete = async (id) => {
     await deletePerson(id);
-    fetchPersons();
+    fetchPersons(); 
   };
 
   const handleEdit = (person) => {
@@ -26,7 +21,7 @@ const PersonList = () => {
   const handleSave = async (person) => {
     await updatePerson(person);
     setEditingPerson(null);
-    fetchPersons();
+    fetchPersons(); 
   };
 
   return (
@@ -66,6 +61,11 @@ const PersonList = () => {
       </ul>
     </div>
   );
+};
+
+PersonList.propTypes = {
+  persons: PropTypes.array.isRequired, 
+  fetchPersons: PropTypes.func.isRequired, 
 };
 
 export default PersonList;

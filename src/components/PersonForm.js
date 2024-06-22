@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { createPerson } from '../api';
+import PropTypes from 'prop-types'; 
 
-const PersonForm = () => {
+const PersonForm = ({ fetchPersons }) => { 
   const [name, setName] = useState('');
   const [availability, setAvailability] = useState(true);
 
@@ -10,6 +11,7 @@ const PersonForm = () => {
     await createPerson({ name, availability });
     setName('');
     setAvailability(true);
+    fetchPersons(); 
   };
 
   return (
@@ -36,6 +38,10 @@ const PersonForm = () => {
       <button type="submit">Add</button>
     </form>
   );
+};
+
+PersonForm.propTypes = {
+  fetchPersons: PropTypes.func.isRequired,
 };
 
 export default PersonForm;

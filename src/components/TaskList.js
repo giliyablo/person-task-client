@@ -1,18 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { getTasks, deleteTask, updateTask } from '../api';
+import React, { useState } from 'react';
+import { deleteTask, updateTask } from '../api';
+import PropTypes from 'prop-types'; 
 
-const TaskList = () => {
-  const [tasks, setTasks] = useState([]);
+const TaskList = ({ tasks, fetchTasks, persons }) => {
   const [editingTask, setEditingTask] = useState(null);
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
-
-  const fetchTasks = async () => {
-    const response = await getTasks();
-    setTasks(response.data);
-  };
 
   const handleDelete = async (id) => {
     await deleteTask(id);
@@ -57,6 +48,17 @@ const TaskList = () => {
                   checked={editingTask.done}
                   onChange={(e) => setEditingTask({ ...editingTask, done: e.target.checked })}
                 />
+                <select
+                  value={editingTask.personAssigned ? editingTask.personAssigned.id : ''}
+                  onChange={(e) => setEditingTask({ ...editingTask, personAssigned: persons.find(person => person.id === e.target.value) })}
+                >
+                  <option value="">Select a person</option>
+                  {persons.map(person => (
+                    <option key={person.id} value={person.id}>
+                      {person.name}
+                    </option>
+                  ))}
+                </select>
                 <button onClick={() => handleSave(editingTask)}>Save</button>
               </div>
             ) : (
@@ -71,6 +73,12 @@ const TaskList = () => {
       </ul>
     </div>
   );
+};
+
+TaskList.propTypes = {
+  tasks: PropTypes.array.isRequired,
+  fetchTasks: PropTypes.func.isRequired, 
+  persons: PropTypes.array.isRequired
 };
 
 export default TaskList;

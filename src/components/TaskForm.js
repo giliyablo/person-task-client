@@ -1,22 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { createTask, getPersons } from '../api';
+import React, { useState } from 'react';
+import { createTask } from '../api';
+import PropTypes from 'prop-types';
 
-const TaskForm = () => {
+const TaskForm = ({ fetchTasks, persons }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [dateOfCreation, setDateOfCreation] = useState('');
   const [done, setDone] = useState(false);
   const [assignedPerson, setAssignedPerson] = useState('');
-  const [persons, setPersons] = useState([]);
-
-  useEffect(() => {
-    fetchPersons();
-  }, []);
-
-  const fetchPersons = async () => {
-    const response = await getPersons();
-    setPersons(response.data);
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -26,6 +17,7 @@ const TaskForm = () => {
     setDateOfCreation('');
     setDone(false);
     setAssignedPerson('');
+    fetchTasks();
   };
 
   return (
@@ -74,6 +66,11 @@ const TaskForm = () => {
       <button type="submit">Add</button>
     </form>
   );
+};
+
+TaskForm.propTypes = {
+  fetchTasks: PropTypes.func.isRequired,
+  persons: PropTypes.array.isRequired 
 };
 
 export default TaskForm;
