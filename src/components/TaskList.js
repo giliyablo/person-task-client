@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 const TaskList = ({ tasks, fetchTasks, persons }) => {
   const [editingTask, setEditingTask] = useState(null);
 
-  const handleDelete = async (id) => {
-    await deleteTask(id);
+  const handleDelete = async (name) => {
+    await deleteTask(name);
     fetchTasks();
   };
 
@@ -25,8 +25,8 @@ const TaskList = ({ tasks, fetchTasks, persons }) => {
       <h2>Tasks</h2>
       <ul>
         {tasks.map(task => (
-          <li key={task.id}>
-            {editingTask && editingTask.id === task.id ? (
+          <li key={task.name}>
+            {editingTask && editingTask.name === task.name ? (
               <div>
                 <input
                   type="text"
@@ -49,12 +49,12 @@ const TaskList = ({ tasks, fetchTasks, persons }) => {
                   onChange={(e) => setEditingTask({ ...editingTask, done: e.target.checked })}
                 />
                 <select
-                  value={editingTask.personAssigned ? editingTask.personAssigned.id : ''}
-                  onChange={(e) => setEditingTask({ ...editingTask, personAssigned: persons.find(person => person.id === e.target.value) })}
+                  value={editingTask.personAssigned ? editingTask.personAssigned.name : ''}
+                  onChange={(e) => setEditingTask({ ...editingTask, personAssigned: persons.find(person => person.name === e.target.value) })}
                 >
                   <option value="">Select a person</option>
                   {persons.map(person => (
-                    <option key={person.id} value={person.id}>
+                    <option key={person.name} value={person.name}>
                       {person.name}
                     </option>
                   ))}
@@ -65,7 +65,7 @@ const TaskList = ({ tasks, fetchTasks, persons }) => {
               <div>
                 {task.name} - {task.description} - {task.dateOfCreation} - {task.done ? 'Done' : 'Not Done'} - Assigned to: {task.personAssigned ? task.personAssigned.name : 'None'}
                 <button onClick={() => handleEdit(task)}>Edit</button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                <button onClick={() => handleDelete(task.name)}>Delete</button>
               </div>
             )}
           </li>

@@ -59,7 +59,7 @@ const TaskForm = ({ fetchTasks, persons }) => {
       >
         <option value="">Assign to</option>
         {persons.map(person => (
-          <option key={person.id} value={person.id}>
+          <option key={person.name} value={person.name}>
             {person.name}
           </option>
         ))}

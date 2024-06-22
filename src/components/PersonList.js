@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 const PersonList = ({ persons, fetchPersons }) => {
   const [editingPerson, setEditingPerson] = useState(null);
 
-  const handleDelete = async (id) => {
-    await deletePerson(id);
+  const handleDelete = async (name) => {
+    await deletePerson(name);
     fetchPersons(); 
   };
 
@@ -25,8 +25,8 @@ const PersonList = ({ persons, fetchPersons }) => {
       <h2>Persons</h2>
       <ul>
         {persons.map(person => (
-          <li key={person.id}>
-            {editingPerson && editingPerson.id === person.id ? (
+          <li key={person.name}>
+            {editingPerson && editingPerson.name === person.name ? (
               <div>
                 <input
                   type="text"
@@ -49,7 +49,7 @@ const PersonList = ({ persons, fetchPersons }) => {
               <div>
                 {person.name} - {person.availability ? 'Available' : 'Not Available'} - Tasks Assigned: {person.tasksAssignedNumber}
                 <button onClick={() => handleEdit(person)}>Edit</button>
-                <button onClick={() => handleDelete(person.id)}>Delete</button>
+                <button onClick={() => handleDelete(person.name)}>Delete</button>
               </div>
             )}
           </li>
