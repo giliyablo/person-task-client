@@ -1,52 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { createTask, getPersons } from '../api';
+import React, { useState } from 'react';
+import { createPerson } from '../api';
 
-const TaskForm = () => {
+const PersonForm = () => {
   const [name, setName] = useState('');
-  const [assignedPerson, setAssignedPerson] = useState('');
-  const [persons, setPersons] = useState([]);
-
-  useEffect(() => {
-    fetchPersons();
-  }, []);
-
-  const fetchPersons = async () => {
-    const response = await getPersons();
-    setPersons(response.data);
-  };
+  const [availability, setAvailability] = useState(true);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createTask({name}, {assignedPerson});
+    await createPerson({ name, availability });
     setName('');
-    setAssignedPerson('');
+    setAvailability(true);
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Task</h2>
+      <h2>Add Person</h2>
       <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="Task Name"
+        placeholder="Person Name"
         required
       />
-      <select
-        value={assignedPerson}
-        onChange={(e) => setAssignedPerson(e.target.value)}
-        required
-      >
-        <option value="">Assign to</option>
-        {persons.map(person => (
-          <option key={person.id} value={person.name}>
-            {person.name}
-          </option>
-        ))}
-      </select>
+      <label>
+        Availability:
+        <select
+          value={availability}
+          onChange={(e) => setAvailability(e.target.value === 'true')}
+          required
+        >
+          <option value="true">Available</option>
+          <option value="false">Not Available</option>
+        </select>
+      </label>
       <button type="submit">Add</button>
     </form>
   );
 };
 
-export default TaskForm;
+export default PersonForm;
