@@ -3,6 +3,9 @@ import { createTask, getPersons } from '../api';
 
 const TaskForm = () => {
   const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [dateOfCreation, setDateOfCreation] = useState('');
+  const [done, setDone] = useState(false);
   const [assignedPerson, setAssignedPerson] = useState('');
   const [persons, setPersons] = useState([]);
 
@@ -17,8 +20,11 @@ const TaskForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createTask({ name, assignedPerson });
+    await createTask({ name, description, dateOfCreation, done, personAssigned: assignedPerson });
     setName('');
+    setDescription('');
+    setDateOfCreation('');
+    setDone(false);
     setAssignedPerson('');
   };
 
@@ -32,6 +38,27 @@ const TaskForm = () => {
         placeholder="Task Name"
         required
       />
+      <input
+        type="text"
+        value={description}
+        onChange={(e) => setDescription(e.target.value)}
+        placeholder="Description"
+        required
+      />
+      <input
+        type="date"
+        value={dateOfCreation}
+        onChange={(e) => setDateOfCreation(e.target.value)}
+        required
+      />
+      <label>
+        Done:
+        <input
+          type="checkbox"
+          checked={done}
+          onChange={(e) => setDone(e.target.checked)}
+        />
+      </label>
       <select
         value={assignedPerson}
         onChange={(e) => setAssignedPerson(e.target.value)}
@@ -39,7 +66,7 @@ const TaskForm = () => {
       >
         <option value="">Assign to</option>
         {persons.map(person => (
-          <option key={person.name} value={person.name}>
+          <option key={person.id} value={person.id}>
             {person.name}
           </option>
         ))}

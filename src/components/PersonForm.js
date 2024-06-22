@@ -1,28 +1,52 @@
-import React, { useState } from 'react';
-import { createPerson } from '../api';
+import React, { useState, useEffect } from 'react';
+import { createTask, getPersons } from '../api';
 
-const PersonForm = () => {
+const TaskForm = () => {
   const [name, setName] = useState('');
+  const [assignedPerson, setAssignedPerson] = useState('');
+  const [persons, setPersons] = useState([]);
+
+  useEffect(() => {
+    fetchPersons();
+  }, []);
+
+  const fetchPersons = async () => {
+    const response = await getPersons();
+    setPersons(response.data);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await createPerson({ name });
+    await createTask({name}, {assignedPerson});
     setName('');
+    setAssignedPerson('');
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Add Person</h2>
+      <h2>Add Task</h2>
       <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
+        placeholder="Task Name"
         required
       />
+      <select
+        value={assignedPerson}
+        onChange={(e) => setAssignedPerson(e.target.value)}
+        required
+      >
+        <option value="">Assign to</option>
+        {persons.map(person => (
+          <option key={person.id} value={person.name}>
+            {person.name}
+          </option>
+        ))}
+      </select>
       <button type="submit">Add</button>
     </form>
   );
 };
 
-export default PersonForm;
+export default TaskForm;
