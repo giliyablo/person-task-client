@@ -1,13 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { deletePerson, updatePerson } from '../api';
 import PropTypes from 'prop-types'; 
 
 const PersonList = ({ persons, fetchPersons }) => {
   const [editingPerson, setEditingPerson] = useState(null);
-
-  useEffect(() => {
-    fetchPersons();
-  }, []);
 
   const handleDelete = async (id) => {
     await deletePerson(id);
