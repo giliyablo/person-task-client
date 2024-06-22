@@ -38,11 +38,6 @@ const PersonList = ({ persons, fetchPersons }) => {
                   checked={editingPerson.availability}
                   onChange={(e) => setEditingPerson({ ...editingPerson, availability: e.target.checked })}
                 />
-                <input
-                  type="number"
-                  value={editingPerson.tasksAssignedNumber}
-                  onChange={(e) => setEditingPerson({ ...editingPerson, tasksAssignedNumber: e.target.value })}
-                />
                 <button onClick={() => handleSave(editingPerson)}>Save</button>
               </div>
             ) : (
