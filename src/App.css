@@ -1,23 +1,63 @@
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .App-header {
-  background-color: #282c34;
+  text-align: center;
   padding: 20px;
+  background-color: #282c34;
   color: white;
 }
 
-form {
-  margin: 20px 0;
+.App-container {
+  display: flex;
+  flex: 1;
 }
 
-input, select {
-  margin: 5px;
+.App-sidebar {
+  width: 200px;
+  background-color: #f4f4f4;
+  padding: 20px;
+  text-align: center;
+}
+
+.App-sidebar h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.App-sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.App-sidebar li {
+  margin: 10px 0;
+}
+
+.App-sidebar a {
+  text-decoration: none;
+  color: #333;
+  font-size: 18px;
+}
+
+.App-content {
+  flex: 1;
+  padding: 20px;
+}
+
+.message {
+  margin-bottom: 20px;
   padding: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  margin: 5px;
+  border: 1px solid #ccc;
+  background-color: #e0ffe0;
+  color: #333;
+  text-align: center;
 }
